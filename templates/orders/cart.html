@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% load static %}
+{% load humanize %}
+{% load i18n %}
+
+{% block content %}
+<main>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
+    integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc="
+    crossorigin="anonymous"
+  />
+  <link
+    href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    rel="stylesheet"
+  />
+
+  <div class="container mt-5">
+    <div class="row">
+      <section class="col-xl-8">
+        <article class="card border shadow-none">
+          <div class="card-body">
+            {% for order in orders %}
+            <!-- Header of card-->
+            <header>
+              <figure class="d-flex align-items-start border-bottom pb-3">
+                <img
+                  loading="lazy"
+                  class="img-fluid col-md-4"
+                  src="/media/{{ order.product.image.name }}"
+                  alt="{{ order.product.name }}"
+                />
+
+                <figcaption class="m-4">
+                  <h3 class="card-title">{{ order.product.name }}</h3>
+                  <hr />
+                  <p class="card-text">{{ order.product.description }}</p>
+                </figcaption>
+
+                <!-- Delete button -->
+                <button class="btn btn-link text-muted px-1" tabindex="4">
+                  <i class="mdi mdi-trash-can-outline"></i>
+                </button>
+              </figure>
+            </header>
+
+            <!-- Body card -->
+            <div class="row">
+              <div class="col-md-4">
+                <div class="mt-3">
+                  <p class="text-muted mb-2">Price</p>
+                  <h5 class="mb-0 mt-2">
+                    <p class="mb-2">
+                      ₡ {{ order.product.price | floatformat | intcomma }}
+                    </p>
+                  </h5>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <div class="mt-3">
+                  <p class="text-muted mb-2">Quantity</p>
+                  <div class="d-inline-flex">
+                    <h5>{{ order.quantity }}</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="mt-3">
+                  <p class="text-muted mb-2">Total</p>
+                  <h5>₡ {{ order.subtotal | floatformat | intcomma }}</h5>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </article>
+
+        <footer class="row my-4">
+          <div class="col-sm-6">
+            <a href="{% url 'products:home' %}" class="btn btn-link text-muted" tabindex="5">
+              <i class="mdi mdi-arrow-left me-1"></i>
+              Continue Shopping
+            </a>
+          </div>
+
+          <!-- Create a chat with owner with buyner -->
+          <div class="col-sm-6 text-sm-end mt-2 mt-sm-0">
+            <a href="" class="btn btn-success" tabindex="6">
+              <i class="mdi mdi-cart-outline me-1"></i>
+              Checkout
+            </a>
+          </div>
+        </footer>
+      </section>
+
+      <!-- Order Summary -->
+      <section class="col-xl-4">
+        <div class="mt-5 mt-lg-0">
+          <div class="card border shadow-none">
+            <div class="card-header bg-transparent border-bottom py-3 px-4">
+              <h5 class="font-size-16 mb-0">Order Summary</h5>
+            </div>
+            <div class="card-body p-4 pt-2">
+              <dl class="row mb-0">
+                {% for order in orders %}
+                <dt class="col-sm-6">{{ order.product.name }}</dt>
+                <dd class="col-sm-6 text-end">
+                  ₡ {{ order.subtotal | floatformat | intcomma }}
+                </dd>
+                {% endfor %}
+                <dt class="col-sm-6">Total:</dt>
+                <dd class="col-sm-6 text-end">
+                  <span class="fw-bold"
+                    >₡ {{ total_amount | floatformat | intcomma }}</span
+                  >
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript"></script>
+</main>
+
+{% endblock %}

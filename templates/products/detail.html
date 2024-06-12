@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Detail{% endblock %}
+
+{% block content %}
+
+<main class="container">
+  <div class="row">
+    <div class="col-md-4 offset-md-4 mt-5 mb-5">
+      <h1 class="text-secondary text-center">{{ product.name }}</h1>
+
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} {{ e }} {{form.as_p}}
+
+        <div class="d-flex justify-content-between">
+          <button
+            class="btn btn-primary"
+            formaction="{% url 'products:update' product.id %}"
+            formmethod="post"
+            type="submit"
+            tabindex="8"
+          >
+            Update
+          </button>
+
+          <button
+            class="btn btn-danger"
+            formaction="{% url 'products:delete' product.id %}"
+            formmethod="post"
+            type="submit"
+            tabindex="9"
+          >
+            Delete
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>
+
+{% endblock%}
